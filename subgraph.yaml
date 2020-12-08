@@ -1,0 +1,36 @@
+specVersion: 0.0.2
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: WisdomToken
+    network: mainnet
+    source:
+      address: "0xDecade1c6Bf2cD9fb89aFad73e4a519C867adcF5"
+      abi: WisdomToken
+      startBlock: 11206061
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Approval
+        - Pause
+        - Transfer
+        - TransferOwnership
+        - Unpause
+      abis:
+        - name: WisdomToken
+          file: ./abis/WisdomToken.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleApproval
+        - event: Pause()
+          handler: handlePause
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+        - event: TransferOwnership(address)
+          handler: handleTransferOwnership
+        - event: Unpause()
+          handler: handleUnpause
+      file: ./src/mapping.ts
